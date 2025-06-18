@@ -1,0 +1,49 @@
+{
+  "name": "react-stripe-toolkit",
+  "version": "0.1.0",
+  "description": "Lightweight TypeScript hooks and components that make Stripe Checkout and other Stripe flows effortless in React.",
+  "keywords": [
+    "stripe",
+    "react",
+    "hooks",
+    "checkout",
+    "payments",
+    "typescript"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vlad-grigoryan/react-stripe-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vlad-grigoryan/react-stripe-toolkit/issues"
+  },
+  "homepage": "https://github.com/vlad-grigoryan/react-stripe-toolkit#readme",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "^2.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "microbundle": "^0.15.1",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "clean": "rm -rf dist",
+    "prepare": "npm run build",
+    "test": "echo \"No tests yet\""
+  }
+}

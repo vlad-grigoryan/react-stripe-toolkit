@@ -1,0 +1,6 @@
+[build]
+  publish = "example/dist"
+  command = "npm --prefix example install && npm --prefix example run build"
+
+[functions]
+  directory = "netlify-functions"

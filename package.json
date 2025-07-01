@@ -46,6 +46,7 @@
     "dev": "microbundle watch",
     "clean": "rm -rf dist",
     "prepare": "npm run build",
+    "dev:netlify": "npm --prefix example run build && npx netlify dev --command \"npm --prefix example run dev\"",
     "test": "echo \"No tests yet\""
   }
 }

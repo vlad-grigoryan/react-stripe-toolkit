@@ -1,7 +1,77 @@
 # react-stripe-toolkit
-“Lightweight TypeScript hooks and components that make Stripe Checkout and other Stripe flows effortless in React.”
 
-[![Live Demo](https://img.shields.io/badge/demo-netlify-brightgreen?logo=netlify)](https://coruscating-gumption-4ce6a7.netlify.app/)
+A lightweight React library that simplifies integrating Stripe Checkout into your application. This toolkit provides a custom hook, `useStripeCheckout`, that manages the loading state, errors, and redirection flow for you, making your Stripe integration clean and straightforward.
+
+## [Live Demo](https://68642ae309dc960008cf5098--coruscating-gumption-4ce6a7.netlify.app/)
+
+## Installation
+
+```bash
+npm install react-stripe-toolkit
+```
+
+or
+
+```bash
+yarn add react-stripe-toolkit
+```
+
+## Available Hooks
+
+| Hook                | Description                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------- |
+| `useStripeCheckout` | A hook to handle the entire Stripe Checkout redirection flow, including session creation and error handling. |
+
+## Running the Demo Locally
+
+To run the included example application on your machine:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/vlad-grigoryan/react-stripe-toolkit.git
+    cd react-stripe-toolkit
+    ```
+
+2.  **Install root dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Set up the example:**
+    Navigate to the example directory and create a `.env` file.
+    ```bash
+    cd example
+    touch .env
+    ```
+
+4.  **Add your Stripe keys to `.env`:**
+    You'll need your Stripe publishable key and secret key.
+    ```
+    VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
+    STRIPE_SECRET_KEY=sk_test_...
+    ```
+
+5.  **Install example dependencies and run:**
+    ```bash
+    npm install
+    npm run dev
+    ```
+
+The demo will be available at `http://localhost:5173`.
+
+## Why `react-stripe-toolkit`?
+
+The goal of this toolkit is to abstract away the boilerplate and complexity of setting up Stripe Checkout in a React application. By using the `useStripeCheckout` hook, you get:
+
+-   **Simplified Logic:** No need to write repetitive fetch requests or manage loading and error states manually.
+-   **Serverless Ready:** Designed to work seamlessly with serverless functions for creating checkout sessions.
+-   **Easy to Use:** A clean and minimal API that gets you up and running with Stripe in minutes.
+-   **Lightweight:** A small package with a focused purpose.
+
+## License
+
+MIT
+
 
 ---
 

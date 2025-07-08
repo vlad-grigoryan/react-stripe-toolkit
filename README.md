@@ -21,6 +21,7 @@ yarn add react-stripe-toolkit
 | Hook                | Description                                                                                             |
 | ------------------- | ------------------------------------------------------------------------------------------------------- |
 | `useStripeCheckout` | A hook to handle the entire Stripe Checkout redirection flow, including session creation and error handling. |
+| `useStripeSubscription` | A hook to handle the Stripe Checkout flow for creating recurring subscriptions. |
 
 ## Running the Demo Locally
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStripeCheckout } from 'react-stripe-toolkit';
+import { useStripeCheckout, useStripeSubscription } from 'react-stripe-toolkit';
 
 // This reference is for Vite environments to provide type definitions for env variables
 /// <reference types="vite/client" />
@@ -48,8 +48,42 @@ const CheckoutDemo: React.FC = () => {
     );
 };
 
+const SubscriptionDemo: React.FC = () => {
+    const { subscribe, loading, error } = useStripeSubscription({
+        publishableKey: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
+        createSessionUrl: '/.netlify/functions/create-subscription-session',
+    });
+
+    return (
+        <div className="content-section">
+            <h2>Subscription Demo</h2>
+            <p className="price">$15.00/month — Pro Plan</p>
+            <button
+                className="pay"
+                onClick={() => subscribe({ priceId: 'price_1Rigm6IHB2OP6EfUCDtLd5k7' })} // <-- CRITICAL: REPLACE THIS with a valid recurring Price ID from your Stripe Dashboard.
+                disabled={loading}
+            >
+                {loading ? 'Redirecting to Stripe…' : 'Subscribe Now'}
+            </button>
+            {error && <p className="error">Error: {error.message}</p>}
+        </div>
+    );
+};
+
 export const Demo: React.FC = () => {
-    const [activeView, setActiveView] = useState<'setup' | 'checkout'>('setup');
+    const [activeView, setActiveView] = useState<'setup' | 'checkout' | 'subscription'>('setup');
+
+    const renderContent = () => {
+        switch (activeView) {
+            case 'checkout':
+                return <CheckoutDemo />;
+            case 'subscription':
+                return <SubscriptionDemo />;
+            case 'setup':
+            default:
+                return <SetupGuide />;
+        }
+    };
 
     return (
         <div className="layout">
@@ -70,11 +104,18 @@ export const Demo: React.FC = () => {
                     >
                         Checkout Demo
                     </button>
+                    <button
+                        type="button"
+                        className={activeView === 'subscription' ? 'active' : ''}
+                        onClick={() => setActiveView('subscription')}
+                    >
+                        Subscription Demo
+                    </button>
                 </nav>
             </aside>
 
             <main className="main-pane">
-                {activeView === 'setup' ? <SetupGuide /> : <CheckoutDemo />}
+                {renderContent()}
             </main>
         </div>
     );

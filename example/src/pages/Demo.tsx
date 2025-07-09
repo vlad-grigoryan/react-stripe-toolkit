@@ -1,121 +1,63 @@
 import React, { useState } from 'react';
-import { useStripeCheckout, useStripeSubscription } from 'react-stripe-toolkit';
 
 // This reference is for Vite environments to provide type definitions for env variables
 /// <reference types="vite/client" />
 
-const SetupGuide: React.FC = () => (
-    <div className="content-section">
-        <h2>Setup Guide</h2>
-        <ol className="checklist">
-            <li>
-                Create a <code>.env</code> file in the <code>/example</code> directory with your Stripe keys:
-                <br />
-                <code>VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...</code>
-                <br />
-                <code>STRIPE_SECRET_KEY=sk_test_...</code>
-            </li>
-            <li>In your Stripe Dashboard, create a test product and copy its Price ID.</li>
-            <li>
-                In <code>CheckoutDemo.tsx</code>, replace the placeholder <code>price_...</code> with your own Price ID.
-            </li>
-            <li>Run <code>npm run dev</code> from your terminal and click the “Pay with Stripe” button.</li>
-        </ol>
-    </div>
-);
+import { SetupGuide } from '../components/SetupGuide';
+import { CheckoutDemo } from '../components/CheckoutDemo';
+import { SubscriptionDemo } from '../components/SubscriptionDemo';
+import '../styles/Demo.css'; // Import the new stylesheet
 
-const CheckoutDemo: React.FC = () => {
-    const { redirect, loading, error } = useStripeCheckout({
-        // The publishable key is safely exposed to the client-side
-        publishableKey: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
-        // This URL points to a serverless function that creates the Checkout Session
-        createSessionUrl: '/.netlify/functions/create-checkout-session',
-    });
-
-    return (
-        <div className="content-section">
-            <h2>Checkout Demo</h2>
-            <p className="price">$42.00 — Demo Product</p>
-            <button
-                className="pay"
-                onClick={() => redirect(undefined, { priceId: 'price_1RdvbqIHB2OP6EfUf1c5Slgy' })} // <-- CRITICAL: REPLACE THIS with a valid Price ID from your Stripe Dashboard.
-                disabled={loading}
-            >
-                {loading ? 'Redirecting to Stripe…' : 'Pay with Stripe'}
-            </button>
-            {error && <p className="error">Error: {error.message}</p>}
-        </div>
-    );
-};
-
-const SubscriptionDemo: React.FC = () => {
-    const { subscribe, loading, error } = useStripeSubscription({
-        publishableKey: import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
-        createSessionUrl: '/.netlify/functions/create-subscription-session',
-    });
-
-    return (
-        <div className="content-section">
-            <h2>Subscription Demo</h2>
-            <p className="price">$15.00/month — Pro Plan</p>
-            <button
-                className="pay"
-                onClick={() => subscribe({ priceId: 'price_1Rigm6IHB2OP6EfUCDtLd5k7' })} // <-- CRITICAL: REPLACE THIS with a valid recurring Price ID from your Stripe Dashboard.
-                disabled={loading}
-            >
-                {loading ? 'Redirecting to Stripe…' : 'Subscribe Now'}
-            </button>
-            {error && <p className="error">Error: {error.message}</p>}
-        </div>
-    );
-};
+const demoSections = [
+    { key: 'setup', label: 'Setup Guide', component: <SetupGuide /> },
+    { key: 'checkout', label: 'Checkout Demo', component: <CheckoutDemo /> },
+    { key: 'subscription', label: 'Subscription Demo', component: <SubscriptionDemo /> },
+];
 
 export const Demo: React.FC = () => {
-    const [activeView, setActiveView] = useState<'setup' | 'checkout' | 'subscription'>('setup');
+    const [selected, setSelected] = useState(demoSections[0].key);
+    const [menuOpen, setMenuOpen] = useState(false);
 
-    const renderContent = () => {
-        switch (activeView) {
-            case 'checkout':
-                return <CheckoutDemo />;
-            case 'subscription':
-                return <SubscriptionDemo />;
-            case 'setup':
-            default:
-                return <SetupGuide />;
+    const handleSelectItem = (key: string) => {
+        setSelected(key);
+        if (window.innerWidth <= 768) {
+            setMenuOpen(false);
         }
     };
 
     return (
-        <div className="layout">
-            <aside className="sidebar">
-                <h1>react-stripe-toolkit</h1>
-                <nav>
-                    <button
-                        type="button"
-                        className={activeView === 'setup' ? 'active' : ''}
-                        onClick={() => setActiveView('setup')}
-                    >
-                        Setup Guide
-                    </button>
-                    <button
-                        type="button"
-                        className={activeView === 'checkout' ? 'active' : ''}
-                        onClick={() => setActiveView('checkout')}
-                    >
-                        Checkout Demo
-                    </button>
-                    <button
-                        type="button"
-                        className={activeView === 'subscription' ? 'active' : ''}
-                        onClick={() => setActiveView('subscription')}
-                    >
-                        Subscription Demo
-                    </button>
+        <div className={`demo-root ${menuOpen ? 'menu-open' : ''}`}>
+            <button 
+                className="menu-toggle"
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label="Toggle menu"
+            >
+                ☰
+            </button>
+            <aside className="demo-sidebar">
+                <div className="demo-sidebar-header">
+                    <span role="img" aria-label="credit card" className="demo-sidebar-icon">💳</span>
+                    React Stripe Toolkit
+                </div>
+                <nav className="demo-sidebar-nav">
+                    {demoSections.map(section => (
+                        <div
+                            key={section.key}
+                            onClick={() => handleSelectItem(section.key)}
+                            className={`demo-nav-item ${selected === section.key ? 'selected' : ''}`}
+                        >
+                            {section.label}
+                        </div>
+                    ))}
                 </nav>
+                <div className="demo-sidebar-footer">
+                    &copy; {new Date().getFullYear()} React Stripe Toolkit
+                </div>
             </aside>
-
-            <main className="main-pane">
-                {renderContent()}
+            <main className="demo-main">
+                <div className="demo-main-content">
+                    {demoSections.find(s => s.key === selected)?.component}
+                </div>
             </main>
         </div>
     );

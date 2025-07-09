@@ -2,7 +2,7 @@
 
 A lightweight React library that simplifies integrating Stripe Checkout into your application. This toolkit provides a custom hook, `useStripeCheckout`, that manages the loading state, errors, and redirection flow for you, making your Stripe integration clean and straightforward.
 
-## [Live Demo](https://68642ae309dc960008cf5098--coruscating-gumption-4ce6a7.netlify.app/)
+## [Live Demo](https://coruscating-gumption-4ce6a7.netlify.app/)
 
 ## Installation
 

@@ -7,6 +7,7 @@ import { SetupGuide } from '../components/SetupGuide';
 import { CheckoutDemo } from '../components/CheckoutDemo';
 import { SubscriptionDemo } from '../components/SubscriptionDemo';
 import { InvoicesDemo } from '../components/InvoicesDemo';
+import { WebhookDemo } from '../components/WebhookDemo';
 import '../styles/Demo.css'; // Import the new stylesheet
 
 const demoSections = [
@@ -14,6 +15,7 @@ const demoSections = [
     { key: 'checkout', label: 'Checkout Demo', component: <CheckoutDemo /> },
     { key: 'subscription', label: 'Subscription Demo', component: <SubscriptionDemo /> },
     { key: 'invoices', label: 'Invoices Demo', component: <InvoicesDemo /> },
+    { key: 'webhooks', label: 'Webhook Demo', component: <WebhookDemo /> },
 ];
 
 export const Demo: React.FC = () => {
